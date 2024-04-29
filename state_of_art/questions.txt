@@ -1,0 +1,5 @@
+Doit-on faire de la prédiction de demande ou cela n'entre pas dans le cadre du projet ?
+Est-ce que vous avez des exemple concrets de cas d'utilisations auxquels je pourrais être confronté (un exemple de liste de contraintes temporelles et graphe)? 
+Voire, est-ce que vous aves des données ? Si non, comment collecter des données ?
+Est-ce que pondérer les différents paramètres de notre problème pour créer une variable à optimiser est une bonne solution ?
+Exemple : optimiser une variable calcululée à partir du temps, GES, du prix, confort, bouchons, risque de retard, fiabilité du service.
