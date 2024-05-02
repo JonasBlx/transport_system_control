@@ -28,7 +28,7 @@
 6. [Deep reinforcement learning of passenger behavior in multimodal journey planning with proportional fairness, Kai-Fung Chu, Weisi Guo (2023)](https://link.springer.com/article/10.1007/s00521-023-08733-4)
 
 * Choice of solution to be explored
-&rarr; Optimizing and computing time by considering network design and scheduling has not yet been done.
+&rarr; Optimizing and computing time by considering network design and scheduling has not yet been done with neural networks.
 
 
 ## Phase 3: Framework
@@ -58,16 +58,42 @@
 - **Graph**
 - **Data**
 - **Graph neural network**
+- **Link prediction**
 
+* Network design :
+    - **Transportation**
+    - **Graph**
+    - **GNN**
+    - **Link prediction**
+    - **Recommander system**
+    - **Data Mining**
+    - **Data Augmentation**
 
-## Phase 4: Literature search and performance comparison
+## Phase 4: Literature search
+
+#### Network design :
+
+1. [Graph Neural Networks for Intelligent Transportation Systems: A Survey, Saeed Rahmani ,Asiye Baghbani ,Nizar Bouguila (2023)](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10077454)
+
+2. [Graph Neural Networks for Recommender System, Chen Gao, Xiang Wang, PictureXiangnan He, PictureYong Li (2022)](https://dl.acm.org/doi/pdf/10.1145/3488560.3501396)
+
+#### Scheduling & travel time :
 
 1. [Travel Time Prediction in a Multimodal Freight Transport Relation Using Machine Learning Algorithms, Nikolaos Servos, Xiaodi Liu, Michael Teucke, Michael Freitag (2019)](https://www.mdpi.com/2305-6290/4/1/1)
 
 2. [GMDNet: A Graph-Based Mixture Density Network for Estimating Packages’ Multimodal Travel Time Distribution, Xiaowei Mao, Huaiyu Wan, Haomin Wen, Fan Wu, Jianbin Zheng, Yuting Qiang, Shengnan Guo, Lixia Wu, Haoyuan Hu, Youfang Lin (2023)](https://ojs.aaai.org/index.php/AAAI/article/view/25578)
+
+3.  [Travel Time Prediction by Advanced Neural Network, Lajos Kisgyörgy, Laurence R. Rilett (2002)](https://pp.bme.hu/ci/article/view/617)
 
 
 ## Phase 5: Conception and planification
 
 #### Plan project implementation
 
+* Network design : 
+![Edge prediction example](figures/from-Understanding-Graph-Neural-Networks-Part1-by-DeepFindr(2020).png)
+Predict new edges between nodes (i.e. new routes between points to be served) to optimize the graph.
+(Harder) Predict new nodes and new edges to optimize the graph.
+
+* Scheduling :
+Each node has a set of features and the scheduling constraints are "hard constraints".
