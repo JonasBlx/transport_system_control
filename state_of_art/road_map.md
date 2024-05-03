@@ -13,7 +13,7 @@
 
 #### Overview of the Work Already Done
 
-|                   | Full optimization | Genetics algorithm | Neural network | Reinforcement learning |
+|                   | Full optimization | Genetics algorithm | Only neural network | Reinforcement learning |
 |-------------------|-------------------|--------------------|----------------|------------------------|
 | Network design    | [Yes<sup>1</sup>](#1) | [Yes<sup>2</sup>](#2) | No | [Yes<sup>5</sup>](#5) |
 | Scheduling/Sizing | [Yes<sup>1</sup>](#1) | [Yes<sup>2</sup>](#3) | No | [Yes<sup>6</sup>](#6) |
@@ -29,6 +29,12 @@
 
 * Choice of solution to be explored
 &rarr; Optimizing and computing time by considering network design and scheduling has not yet been done with neural networks.
+
+|Type of NN in Deep Reinforcement Learning (DRL)| Convolutional | Recurrent | Only neural network | Reinforcement learning |
+|-------------------|-------------------|--------------------|----------------|------------------------|
+| Network design    | [Yes<sup>1</sup>](#1) | [Yes<sup>2</sup>](#2) | No | [Yes<sup>5</sup>](#5) |
+| Scheduling/Sizing | [Yes<sup>1</sup>](#1) | [Yes<sup>2</sup>](#3) | No | [Yes<sup>6</sup>](#6) |
+| Time computing    | [Yes<sup>1</sup>](#1) | [Yes<sup>2,3</sup>](#2) | [Yes<sup>4</sup>](#4) | [Yes<sup>5,6</sup>](#5) |
 
 
 ## Phase 3: Framework
@@ -91,7 +97,7 @@
 #### Plan project implementation
 
 * Network design : 
-![Edge prediction example](figures/from-Understanding-Graph-Neural-Networks-Part1-by-DeepFindr(2020).png)
+![Edge prediction example](https://github.com/JonasBlx/transport_system_control/blob/main/figures/from%20Understanding%20Graph%20Neural%20Networks%20Part1%20by%20DeepFindr.png)
 Predict new edges between nodes (i.e. new routes between points to be served) to optimize the graph.
 (Harder) Predict new nodes and new edges to optimize the graph.
 
