@@ -188,6 +188,16 @@ Train the model and assess performance
 ## Phase 8: Improve
 Improving and fine-tuning modeling
 
+
+# Project gantt chart :
+
+<p align="center">
+  <img src="https://github.com/JonasBlx/transport_system_control/blob/main/figures/project_gantt.png" alt="Project gantt chart">
+</p>
+
+
+-- 
+
 <p align="center">
   <img src="https://github.com/JonasBlx/transport_system_control/blob/main/figures/from%20Understanding%20Graph%20Neural%20Networks%20Part1%20by%20DeepFindr.png" alt="Edge prediction example">
 </p>
