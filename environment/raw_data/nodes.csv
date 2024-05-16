@@ -1,0 +1,11 @@
+ID,Type,Coordinates,Capacity,Resource_Availability,Operating_Hours
+1,Bus Stop,"(34.0622, -118.2437)",50,"10 buses, 5 drivers", "05:00-23:00"
+2,Railway Station,"(34.0722, -118.2537)",100,"5 trains, 10 drivers", "24 hours"
+3,Seaport,"(33.9516, -118.4185)",150,"3 ships, 15 crew", "06:00-20:00"
+4,Airport,"(33.9616, -118.4285)",200,"4 planes, 20 pilots", "24 hours"
+5,Multimodal Hub,"(34.0822, -118.2637)",300,"All types, 50 staff", "24 hours"
+6,Bus Stop,"(34.0507, -118.2568)",60,"8 buses, 4 drivers", "04:00-22:00"
+7,Railway Station,"(34.0660, -118.2472)",110,"6 trains, 12 drivers", "24 hours"
+8,Seaport,"(33.9203, -118.3638)",160,"4 ships, 18 crew", "07:00-21:00"
+9,Airport,"(33.9465, -118.4078)",210,"5 planes, 25 pilots", "24 hours"
+10,Multimodal Hub,"(34.0130, -118.3772)",310,"All types, 55 staff", "24 hours"

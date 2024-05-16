@@ -1,0 +1,16 @@
+ID,Node1,Node2,Type,Length_km,Travel_Time,Capacity,Traffic_Conditions,Infrastructure_Quality,Safety,Usage_Cost,Accessibility,Dynamic_Data
+1,1,2,Road,10,15,"30 vehicles, 300 passengers",Moderate,Good,High,"$2, Low maintenance",None,Stable
+2,2,3,Railway,50,60,"50 vehicles, 500 passengers",Low,Average,Medium,"$5, Moderate maintenance",None,Stable
+3,3,4,Air_Route,15,10,"2 planes, 200 passengers",Low,Good,High,"$50, High maintenance",None,Variable
+4,4,5,Maritime_Route,25,30,"4 ships, 400 passengers",Moderate,Poor,Low,"$30, High maintenance",None,Variable
+5,5,1,Road,15,20,"40 vehicles, 350 passengers",High,Average,Medium,"$3, Moderate maintenance",None,Variable
+6,6,7,Railway,5,8,"35 vehicles, 280 passengers",Moderate,Good,High,"$2, Low maintenance",None,Stable
+7,7,8,Air_Route,20,18,"3 planes, 210 passengers",Low,Good,High,"$55, High maintenance",None,Variable
+8,8,9,Maritime_Route,30,25,"5 ships, 450 passengers",High,Poor,Low,"$35, High maintenance",None,Variable
+9,9,10,Road,12,14,"32 vehicles, 320 passengers",Moderate,Good,High,"$4, Low maintenance",None,Stable
+10,10,6,Railway,7,10,"38 vehicles, 290 passengers",Low,Average,Medium,"$3, Moderate maintenance",None,Stable
+11,1,5,Road,8,12,"28 vehicles, 270 passengers",High,Good,High,"$3, Low maintenance",None,Variable
+12,2,6,Railway,12,15,"45 vehicles, 430 passengers",Moderate,Poor,Low,"$6, Moderate maintenance",None,Stable
+13,3,7,Air_Route,18,16,"2 planes, 220 passengers",Low,Good,High,"$60, High maintenance",None,Variable
+14,4,8,Maritime_Route,22,28,"6 ships, 500 passengers",Moderate,Poor,Low,"$40, High maintenance",None,Variable
+15,5,9,Road,13,17,"37 vehicles, 340 passengers",High,Good,High,"$4, Low maintenance",None,Stable
