@@ -1,6 +1,15 @@
 import pandas as pd
+import random
 
-# Exemple de données de nœuds avec 18 nœuds
+# Définir les intervalles pour les latitudes et longitudes
+latitude_interval = (34.0, 55.0)
+longitude_interval = (-122.0, 139.0)
+
+# Générer des latitudes et longitudes aléatoires
+random_latitudes = [round(random.uniform(*latitude_interval), 4) for _ in range(18)]
+random_longitudes = [round(random.uniform(*longitude_interval), 4) for _ in range(18)]
+
+# Créer les autres données
 data = {
     "node_id": list(range(1, 19)),
     "bus_stop": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
@@ -8,8 +17,8 @@ data = {
     "seaport": [0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
     "airport": [0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0],
     "hub": [0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0],
-    "latitude": [48.8566, 51.5074, 40.7128, 35.6895, 34.0522, 37.7749, 55.7558, 39.9042, 52.5200, 45.4642, 19.0760, 13.7563, -33.8688, 41.9028, 35.6762, 34.6937, 31.2304, -23.5505],
-    "longitude": [2.3522, -0.1278, -74.0060, 139.6917, -118.2437, -122.4194, 37.6173, 116.4074, 13.4050, 9.1900, 72.8777, 100.5018, 151.2093, 12.4964, 139.6503, 135.5023, 121.4737, -46.6333],
+    "latitude": random_latitudes,
+    "longitude": random_longitudes,
     "capacity": [100, 200, 300, 400, 500, 150, 250, 350, 450, 550, 120, 220, 320, 420, 520, 170, 270, 370],
     "vehicles": [5, 10, 15, 20, 25, 6, 11, 16, 21, 26, 7, 12, 17, 22, 27, 8, 13, 18],
     "staff": [2, 4, 6, 8, 10, 3, 5, 7, 9, 11, 2, 4, 6, 8, 10, 3, 5, 7],
