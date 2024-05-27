@@ -1,7 +1,8 @@
 # Ignore the venv
 /tsc_venv
 
-
+# Ignore the data file
+ecotrain.xlsx
 
 
 # Byte-compiled / optimized / DLL files

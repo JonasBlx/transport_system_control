@@ -1,17 +1,13 @@
-# arcs.py
+import torch
 
 class Arc:
-    def __init__(self, arc_id, road, railway, canal, maritime, air_route, length, travel_time, capacity, traffic_condition, safety, usage_cost, open):
+    def __init__(self, arc_id, arc_type, length, travel_time, capacity, traffic_condition, safety, usage_cost, open):
         """
         Initialize an arc in the transportation network.
 
         Args:
             arc_id (int): Unique identifier for the arc.
-            road (int): 1 if the arc is a road, else 0.
-            railway (int): 1 if the arc is a railway, else 0.
-            canal (int): 1 if the arc is a canal, else 0.
-            maritime (int): 1 if the arc is a maritime route, else 0.
-            air_route (int): 1 if the arc is an air route, else 0.
+            arc_type (torch.Tensor): One-hot encoded tensor indicating types of the arc (e.g., [road, railway, canal, maritime, air_route]).
             length (float): Length of the arc in kilometers.
             travel_time (float): Average travel time in minutes.
             capacity (int): Maximum number of vehicles or passengers that can travel simultaneously.
@@ -21,11 +17,7 @@ class Arc:
             open (int): 1 if the arc is open, 0 if it's closed.
         """
         self.arc_id = arc_id
-        self.road = road
-        self.railway = railway
-        self.canal = canal
-        self.maritime = maritime
-        self.air_route = air_route
+        self.arc_type = arc_type
         self.length = length
         self.travel_time = travel_time
         self.capacity = capacity
@@ -36,15 +28,6 @@ class Arc:
 
     def get_id(self):
         return self.arc_id
-
-    def get_type(self):
-        return {
-            'road': self.road,
-            'railway': self.railway,
-            'canal': self.canal,
-            'maritime': self.maritime,
-            'air_route': self.air_route
-        }
 
     def get_length(self):
         return self.length
@@ -67,21 +50,23 @@ class Arc:
     def get_open(self):
         return self.open
 
+    def to_tensor(self):
+        main_attributes_tensor = torch.tensor([
+            self.arc_id, self.length, self.travel_time, self.capacity,
+            self.traffic_condition, self.safety, self.usage_cost, self.open
+        ], dtype=torch.float)
+        return torch.cat((main_attributes_tensor, self.arc_type))
+
     def __repr__(self):
-        return (f"Arc(id={self.arc_id}, road={self.road}, railway={self.railway}, canal={self.canal}, "
-                f"maritime={self.maritime}, air_route={self.air_route}, length={self.length} km, "
+        return (f"Arc(id={self.arc_id}, type={self.arc_type.tolist()}, length={self.length} km, "
                 f"travel_time={self.travel_time} min, capacity={self.capacity}, traffic_condition={self.traffic_condition}, "
                 f"safety={self.safety}, usage_cost={self.usage_cost}, open={self.open})")
 
-# Example usage
+# Exemple d'utilisation
 if __name__ == "__main__":
     arc = Arc(
         arc_id=1,
-        road=1,
-        railway=0,
-        canal=0,
-        maritime=0,
-        air_route=0,
+        arc_type=torch.tensor([1, 0, 0, 0, 0]),  # One-hot encoded: [road, railway, canal, maritime, air_route]
         length=15.5,
         travel_time=30,
         capacity=100,
@@ -90,4 +75,6 @@ if __name__ == "__main__":
         usage_cost=2.5,
         open=1
     )
+    arc_tensor = arc.to_tensor()
     print(arc)
+    print(arc_tensor)

@@ -101,7 +101,32 @@ def check_csv_files(node_file_path, arc_file_path):
     else:
         print("Some checks failed. Please review the errors.")
 
+import pandas as pd
+
+def check_consistency(nodes_file_path, arcs_file_path):
+    # Load the nodes and arcs data
+    nodes_df = pd.read_csv(nodes_file_path)
+    arcs_df = pd.read_csv(arcs_file_path)
+
+    # Get the set of node ids
+    node_ids = set(nodes_df['node_id'])
+
+    # Check if each arc references existing nodes
+    for _, row in arcs_df.iterrows():
+        if row['source'] not in node_ids or row['target'] not in node_ids:
+            return False, f"Invalid arc from {row['source']} to {row['target']}"
+
+    # If we've made it here, all arcs are valid
+    return True, "All arcs are valid"
+
+
 if __name__ == "__main__":
     node_file_path = "nodes_example_1.csv"
     arc_file_path = "arcs_example_1.csv"
+    # Example usage
+    is_valid, message = check_consistency(node_file_path, arc_file_path)
+    if is_valid:
+        print(message)
+    else:
+        print(f"Consistency check failed: {message}")
     check_csv_files(node_file_path, arc_file_path)

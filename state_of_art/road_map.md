@@ -196,7 +196,7 @@ Improving and fine-tuning modeling
 </p>
 
 
--- 
+---  
 
 <p align="center">
   <img src="https://github.com/JonasBlx/transport_system_control/blob/main/figures/from%20Understanding%20Graph%20Neural%20Networks%20Part1%20by%20DeepFindr.png" alt="Edge prediction example">
