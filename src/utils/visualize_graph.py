@@ -1,63 +1,46 @@
 import sys
-sys.path.append("../../")
+sys.path.append("../environment/")
 
 import torch
 import networkx as nx
 import matplotlib.pyplot as plt
-from torch_geometric.utils import to_networkx
-from src.environment.transport_network import TransportNetwork
+from environment import Environment
 
 def visualize_network(network):
-    # Convert the transport network to PyTorch Geometric Data object
-    pyg_data = network.to_pyg_data()
-
-    # Convert PyTorch Geometric Data object to NetworkX graph
-    G = to_networkx(pyg_data, to_undirected=True, node_attrs=['x'], edge_attrs=['edge_attr'])
+    # Create a NetworkX graph
+    G = nx.Graph()
 
     # Create a mapping from node indices to their positions
     pos = {}
     for node_id, node in network.nodes.items():
-        pos[node_id] = (node.longitude, node.latitude)  # Use attributes from Node objects
-    
-    # Ensure pos uses integer node indices used by NetworkX
-    pos = {i: pos[node_id] for i, node_id in enumerate(network.nodes)}
+        G.add_node(node_id, node_type=node.node_type, capacity=node.capacity, staff=node.staff, demand=node.demand)
+        pos[node_id] = (node.coordinates[1].item(), node.coordinates[0].item())  # Use attributes from Node objects
+
+    for arc_id, (arc, source, target) in network.arcs.items():
+        G.add_edge(source, target, length=arc.length, travel_time=arc.travel_time, capacity=arc.capacity,
+                   traffic_condition=arc.traffic_condition, safety=arc.safety, usage_cost=arc.usage_cost, open=arc.open)
 
     # Draw the graph
     plt.figure(figsize=(8, 6))
     nx.draw(G, pos, with_labels=True, node_size=700, node_color='skyblue', font_size=10, font_weight='bold')
-    edge_labels = { (u, v): f"{data['edge_attr'][0]:.1f}, {data['edge_attr'][1]:.1f}" for u, v, data in G.edges(data=True)}
+    
+    # Add edge labels
+    edge_labels = {(u, v): f"{d['length']:.1f}, {d['travel_time']:.1f}" for u, v, d in G.edges(data=True)}
     nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
     
     plt.title("Transport Network Graph")
     plt.show()
 
-
-
 if __name__ == "__main__":
-    import pandas as pd
     # Load the TransportNetwork object
-    network = TransportNetwork()
+    network = Environment()
     pyg_data = torch.load("../../data/generated/transport_network.pth")
-    ## Obtenir le nombre de nœuds
-    #num_nodes = pyg_data.num_nodes
-#
-    ## Obtenir les indices des bords (arcs)
-    #edge_index = pyg_data.edge_index.numpy()
-#
-    ## Liste des node_id pour chaque nœud
-    #node_ids = list(range(num_nodes))
-#
-    ## Créer une liste des paires (source, target) pour chaque arc
-    #source_nodes = edge_index[0]
-    #target_nodes = edge_index[1]
-    #arc_sources_targets = list(zip(source_nodes, target_nodes))
-#
-    ## Affichage des résultats
-    #print("Node IDs pour chaque nœud :", node_ids)
-    #print("Pairs (source, target) pour chaque arc :", arc_sources_targets)
-
-
     network.from_pyg_data(pyg_data)
     
     print("Graph loaded from transport_network.pth")
+    
+    # Print out nodes and their coordinates for debugging
+    for node_id, node in network.nodes.items():
+        print(f"Node {node_id}: coordinates={node.coordinates}")
+    
     visualize_network(network)

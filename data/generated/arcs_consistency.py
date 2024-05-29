@@ -1,11 +1,11 @@
 import pandas as pd
+import ast
 
 def check_unique_arc_types(df):
-    arc_types = ['road', 'railway', 'canal', 'maritime', 'air_route']
     for index, row in df.iterrows():
-        type_count = sum([row[arc_type] for arc_type in arc_types])
-        if type_count != 1:
-            print(f"Error: Arc ID {row['arc_id']} has {type_count} types set to 1. Each arc must have exactly one type.")
+        arc_type = ast.literal_eval(row['arc_type'])
+        if sum(arc_type) != 1:
+            print(f"Error: Arc ID {row['arc_id']} has {sum(arc_type)} types set to 1. Each arc must have exactly one type.")
             return False
     return True
 

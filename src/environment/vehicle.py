@@ -36,7 +36,7 @@ class Vehicle:
         return torch.cat((main_attributes_tensor, vehicle_type_tensor, service_hours_tensor))
 
     def __repr__(self):
-        return (f"Vehicle(id={self.vehicle_id}, in_service={self.in_service}, type={self.vehicle_type.tolist()}, "
+        return (f"Vehicle(id={self.v1Aehicle_id}, in_service={self.in_service}, type={self.vehicle_type.tolist()}, "
                 f"is_node={self.is_node}, location_id={self.location_id}, next_departure={self.next_departure}, "
                 f"capacity={self.capacity}, capacity_left={self.capacity_left}, service_hours={self.service_hours.tolist()})")
 

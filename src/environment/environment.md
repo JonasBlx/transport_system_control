@@ -16,6 +16,8 @@ pas de temps = évolution des décisions
 
 reward : distance totale
 
+Fonction step : 
+
 
 Chaque véhicule de notre simulation à un ID et est un attribut du noeud/arc sur lequel il se trouve. Aussi, il a une variable prochain départ.
 

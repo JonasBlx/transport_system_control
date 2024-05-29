@@ -1,4 +1,5 @@
 import pandas as pd
+import ast
 
 def load_nodes(file_path):
     return pd.read_csv(file_path)
@@ -18,11 +19,10 @@ def check_node_existence(df_nodes, df_arcs):
     return True
 
 def check_unique_arc_types(df_arcs):
-    arc_types = ['road', 'railway', 'canal', 'maritime', 'air_route']
     for index, row in df_arcs.iterrows():
-        type_count = sum([row[arc_type] for arc_type in arc_types])
-        if type_count != 1:
-            print(f"Error: Arc ID {row['arc_id']} has {type_count} types set to 1. Each arc must have exactly one type.")
+        arc_type = ast.literal_eval(row['arc_type'])
+        if sum(arc_type) != 1:
+            print(f"Error: Arc ID {row['arc_id']} has {sum(arc_type)} types set to 1. Each arc must have exactly one type.")
             return False
     return True
 
@@ -101,8 +101,6 @@ def check_csv_files(node_file_path, arc_file_path):
     else:
         print("Some checks failed. Please review the errors.")
 
-import pandas as pd
-
 def check_consistency(nodes_file_path, arcs_file_path):
     # Load the nodes and arcs data
     nodes_df = pd.read_csv(nodes_file_path)
@@ -118,7 +116,6 @@ def check_consistency(nodes_file_path, arcs_file_path):
 
     # If we've made it here, all arcs are valid
     return True, "All arcs are valid"
-
 
 if __name__ == "__main__":
     node_file_path = "nodes_example_1.csv"

@@ -1,7 +1,7 @@
 # test_environment.py
 
 import unittest
-from src.environment.transport_network import TransportNetwork
+from environment.environment import TransportNetwork
 from src.environment.nodes import Node
 from src.environment.arcs import Arc
 import torch
