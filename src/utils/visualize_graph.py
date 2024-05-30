@@ -34,7 +34,7 @@ def visualize_network(network):
 if __name__ == "__main__":
     # Load the TransportNetwork object
     network = Environment()
-    pyg_data = torch.load("../../data/generated/transport_network.pth")
+    pyg_data = torch.load("../../data/generated/environment.pth")
     network.from_pyg_data(pyg_data)
     
     print("Graph loaded from transport_network.pth")

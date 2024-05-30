@@ -48,5 +48,5 @@ def display_node_and_edge(filepath):
         print("No edges found in the data.")
 
 if __name__ == "__main__":
-    filepath = "../../data/generated/transport_network.pth"
+    filepath = "../../data/generated/environment.pth"
     display_node_and_edge(filepath)
