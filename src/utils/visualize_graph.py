@@ -4,6 +4,7 @@ sys.path.append("../environment/")
 import torch
 import networkx as nx
 import matplotlib.pyplot as plt
+import pandas as pd
 from environment import Environment
 
 def visualize_network(network):
@@ -35,9 +36,12 @@ if __name__ == "__main__":
     # Load the TransportNetwork object
     network = Environment()
     pyg_data = torch.load("../../data/generated/environment.pth")
-    network.from_pyg_data(pyg_data)
+    node_sizes_df = pd.read_csv("../../data/generated/node_sizes.csv")
+    arc_sizes_df = pd.read_csv("../../data/generated/arc_sizes.csv")
     
-    print("Graph loaded from transport_network.pth")
+    network.from_pyg_data(pyg_data, node_sizes_df, arc_sizes_df)
+    
+    print("Graph loaded from environment.pth")
     
     # Print out nodes and their coordinates for debugging
     for node_id, node in network.nodes.items():

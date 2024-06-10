@@ -8,7 +8,7 @@ class Node:
         
         Args:
             node_id (int): Unique identifier for the node.
-            node_type (torch.Tensor): One-hot encoded tensor indicating types of the node (e.g., [bus_stop, railway_station, seaport, airport, hub]).
+            node_type (torch.Tensor): One-hot encoded tensor indicating types of the node (e.g., [bus_stop, railway_station, seaport, airport]).
             coordinates (torch.Tensor): Tensor with [latitude, longitude].
             capacity (int): Capacity for handling passengers simultaneously.
             vehicles (list): List of Vehicle objects available at the node.

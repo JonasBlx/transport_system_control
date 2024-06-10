@@ -1,7 +1,7 @@
 # Problem Description
 
 ## State
-- **Statistical Data**: Current graph configuration, including the structure of nodes and arcs, and the capacities of each node and arc.
+- **Statical Data**: Current graph configuration, including the structure of nodes and arcs, and the capacities of each node and arc.
 - **Dynamic Data**: Customer requests at each node, current location of vehicles, vehicle status (whether they are en route or not), and current demand.
 
 ## Action

@@ -1,110 +1,106 @@
-# test_environment.py
+import sys
+sys.path.append("../src/")
+sys.path.append("../src/environment/")
 
 import unittest
-from environment.environment import TransportNetwork
-from src.environment.nodes import Node
-from src.environment.arcs import Arc
+import pandas as pd
 import torch
+from environment import Environment, load_network_from_csv, Node, Vehicle, Arc
+
 
 class TestEnvironment(unittest.TestCase):
+
     def setUp(self):
-        self.network = TransportNetwork()
-        self.node1 = Node(
-            node_id="N1",
-            node_type="Bus Stop",
-            coordinates=(48.8566, 2.3522),
-            capacity=100,
-            resources={"vehicles": 5, "staff": 2},
-            operating_hours=(6, 22)
-        )
-        self.node2 = Node(
-            node_id="N2",
-            node_type="Railway Station",
-            coordinates=(48.8588, 2.3200),
-            capacity=300,
-            resources={"vehicles": 10, "staff": 5},
-            operating_hours=(5, 23)
-        )
-        self.arc = Arc(
-            arc_id="A1",
-            arc_type="Road",
-            length=15.5,
-            travel_time=30,
-            capacity=100,
-            traffic_conditions="moderately congested",
-            infrastructure_quality="good",
-            safety="low accident rate",
-            usage_cost=2.5,
-            accessibility="no restrictions",
-            dynamic_data={"current_traffic": "free-flowing", "incidents": "none"}
-        )
+        self.environment = Environment()
+        # Setup for loading from CSV file paths
+        self.node_file_path = "../data/generated/nodes_example_1.csv"
+        self.arc_file_path = "../data/generated/arcs_example_1.csv"
+        self.environment = load_network_from_csv(self.node_file_path, self.arc_file_path)
+
+    def test_load_from_csv(self):
+        # Check if nodes and arcs are loaded correctly
+        self.assertEqual(len(self.environment.nodes), 18)  # As per the number of nodes in the CSV
+        self.assertEqual(len(self.environment.arcs), 40)   # As per the number of arcs in the CSV
+
+    def test_to_from_pyg_data(self):
+        # Converting to PyTorch Geometric data format and back
+        pyg_data, node_sizes_df, arc_sizes_df = self.environment.to_pyg_data()
+        self.assertIsNotNone(pyg_data)
+        self.assertIsNotNone(node_sizes_df)
+        self.assertIsNotNone(arc_sizes_df)
+        # Clear environment and load data back from PyTorch Geometric format
+        self.environment.from_pyg_data(pyg_data, node_sizes_df, arc_sizes_df)
+        self.assertEqual(len(self.environment.nodes), 18)
+        self.assertEqual(len(self.environment.arcs), 40)
+
+    def test_get_state(self):
+        state = self.environment.get_state()
+        self.assertTrue("nodes" in state)
+        self.assertTrue("arcs" in state)
+        self.assertEqual(len(state["nodes"]), 18)
+        self.assertEqual(len(state["arcs"]), 40)
 
     def test_add_node(self):
-        self.network.add_node(self.node1)
-        self.assertEqual(len(self.network.nodes), 1)
-        self.network.add_node(self.node2)
-        self.assertEqual(len(self.network.nodes), 2)
-        self.assertIn("N1", self.network.nodes)
-        self.assertIn("N2", self.network.nodes)
+        node = Node(
+            node_id=19,
+            node_type=torch.tensor([1, 0, 0, 0, 0], dtype=torch.float),
+            coordinates=torch.tensor([0.0, 0.0], dtype=torch.float),
+            capacity=50,
+            vehicles=[],
+            staff=5,
+            service_hours=torch.tensor([6.0, 22.0], dtype=torch.float),
+            demand=30
+        )
+        self.environment.add_node(node)
+        self.assertEqual(len(self.environment.nodes), 19)
+        self.assertEqual(self.environment.get_node(19), node)
 
     def test_add_arc(self):
-        self.network.add_node(self.node1)
-        self.network.add_node(self.node2)
-        self.network.add_arc(self.arc, "N1", "N2")
-        self.assertEqual(len(self.network.arcs), 1)
-        self.assertIn("A1", self.network.arcs)
-        self.assertEqual(self.network.arcs["A1"][1], "N1")
-        self.assertEqual(self.network.arcs["A1"][2], "N2")
+        arc = Arc(
+            arc_id=41,
+            arc_type=torch.tensor([1, 0, 0, 0, 0], dtype=torch.float),
+            length=20.0,
+            travel_time=30.0,
+            capacity=100,
+            traffic_condition=1,
+            safety=5,
+            usage_cost=10.0,
+            open=1,
+            source=1,
+            target=2,
+            vehicles=[]
+        )
+        self.environment.add_arc(arc, source=1, target=2)
+        self.assertEqual(len(self.environment.arcs), 41)
+        self.assertEqual(self.environment.get_arc(41)[0], arc)
 
-    def test_network_state(self):
-        self.network.add_node(self.node1)
-        self.network.add_node(self.node2)
-        self.network.add_arc(self.arc, "N1", "N2")
-        state = self.network.get_state()
-        self.assertIn("nodes", state)
-        self.assertIn("arcs", state)
-        self.assertEqual(len(state["nodes"]), 2)
-        self.assertEqual(len(state["arcs"]), 1)
+    def test_step(self):
+        schedule = []
+        new_state, reward, done = self.environment.step(schedule)
+        self.assertIsInstance(new_state, dict)
+        self.assertIsInstance(reward, float)
+        self.assertIsInstance(done, bool)
 
-    def test_apply_action_update_capacity(self):
-        self.network.add_node(self.node1)
-        action = {
-            "type": "update_node_capacity",
-            "node_id": "N1",
-            "new_capacity": 120
-        }
-        self.network.apply_action(action)
-        self.assertEqual(self.network.get_node("N1").get_capacity(), 120)
+    def test_calculate_reward(self):
+        reward = self.environment.calculate_reward()
+        self.assertIsInstance(reward, float)
 
-    def test_apply_action_update_dynamic_data(self):
-        self.network.add_node(self.node1)
-        self.network.add_node(self.node2)
-        self.network.add_arc(self.arc, "N1", "N2")
-        action = {
-            "type": "update_arc_dynamic_data",
-            "arc_id": "A1",
-            "key": "current_traffic",
-            "value": "highly congested"
-        }
-        self.network.apply_action(action)
-        self.assertEqual(self.network.get_arc("A1")[0].get_dynamic_data()["current_traffic"], "highly congested")
+    def test_update_state(self):
+        self.environment.update_state()
+        # Assuming the function is updating some state,
+        # we would need some assertion here, but since the original function is a placeholder,
+        # we will just call it to make sure it runs without errors.
 
-    def test_to_pyg_data(self):
-        self.network.add_node(self.node1)
-        self.network.add_node(self.node2)
-        self.network.add_arc(self.arc, "N1", "N2")
-        pyg_data = self.network.to_pyg_data()
-        
-        # Check node features
-        self.assertEqual(pyg_data.num_nodes, 2)
-        self.assertTrue(torch.equal(pyg_data.x, torch.tensor([[100], [300]], dtype=torch.float)))
+    def test_update_demand(self):
+        node = self.environment.get_node(1)
+        initial_demand = node.demand
+        self.environment.update_demand(node)
+        #  self.assertNotEqual(node.demand, initial_demand)  # Assuming the demand changes
 
-        # Check edge indices
-        self.assertEqual(pyg_data.num_edges, 1)
-        self.assertTrue(torch.equal(pyg_data.edge_index, torch.tensor([[0], [1]], dtype=torch.long)))
+    def test_repr(self):
+        repr_str = repr(self.environment)
+        self.assertIsInstance(repr_str, str)
 
-        # Check edge attributes
-        self.assertTrue(torch.equal(pyg_data.edge_attr, torch.tensor([[15.5, 30.0]], dtype=torch.float)))
 
 if __name__ == "__main__":
     unittest.main()

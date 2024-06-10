@@ -1,17 +1,21 @@
 import torch
-
+import pandas as pd
 import sys
 sys.path.append("../environment/")
 
 from environment import Environment
 
-def display_node_and_edge(filepath):
+def display_node_and_edge(pyg_filepath, node_size_csv, arc_size_csv):
     # Load the PyTorch Geometric data
-    pyg_data = torch.load(filepath)
+    pyg_data = torch.load(pyg_filepath)
+    
+    # Load the sizes DataFrames
+    node_sizes_df = pd.read_csv(node_size_csv)
+    arc_sizes_df = pd.read_csv(arc_size_csv)
     
     # Create an environment and load the data
     network = Environment()
-    network.from_pyg_data(pyg_data)
+    network.from_pyg_data(pyg_data, node_sizes_df, arc_sizes_df)
     
     # Display the first node attributes
     if len(network.nodes) > 0:
@@ -48,5 +52,7 @@ def display_node_and_edge(filepath):
         print("No edges found in the data.")
 
 if __name__ == "__main__":
-    filepath = "../../data/generated/environment.pth"
-    display_node_and_edge(filepath)
+    pyg_filepath = "../../data/generated/environment.pth"
+    node_size_csv = "../../data/generated/node_sizes.csv"
+    arc_size_csv = "../../data/generated/arc_sizes.csv"
+    display_node_and_edge(pyg_filepath, node_size_csv, arc_size_csv)
